@@ -8,7 +8,7 @@ Define dsitributed system is a loosly-coupledset of N processes{p1...,pn} and a
 set of loss-free uni-directional channels. No shared memory. Assume
 message-passing.
 
-1. Interleaving model
+### 1. Interleaving model
   - Run of a distributet program is a globale sqquence of events. next(G,e) is
     the next state obtained after executing
 
@@ -19,3 +19,15 @@ sequence of global stats(G; 0 <= i <= m+1) such the G_0 is a initial state and
 G_i+1 = next(G_i, e_i) for 0<=<=m
 => total (global) order
 
+### 2. Happended before model
+
+Interleaving model needs total order (there is a order between each pair of
+events). Destributed ststem has only partial order(Laslie Laport)
+=> happened before!
+
+Each process P: generates a sequence of stated s_i0 e_i0, s_i1.......e_ie
+Initial state of P: is s_i0: s_ij -e_ij---> s_ij+1
+
+####Def Relation immediately precedes
+e immediately precedes f in the sequence of events at P;
+Also: next(e) = x of prev(f) = whenever
