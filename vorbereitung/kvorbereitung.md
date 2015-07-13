@@ -3,7 +3,6 @@
 ###Einleitung
 
 ####Herausforderungen
-
 * Heterogenität
   - Netzwerk
   - Hardware
@@ -35,7 +34,6 @@ Distributed System A distributed system is a collection of independent
 components (computers) that appears to its users as a single, coherent system.
 
 ####Transparenz
-
 verbergen von:
 
 * Zugriff, verstecken von Representationen und wie zugegriffen wird
@@ -47,7 +45,6 @@ verbergen von:
 * Fehler
 
 ####Sklierbarkeit
-
 * in der größe
 * geologisch
 * administration
@@ -65,14 +62,12 @@ verbergen von:
 * benötigt keiner globale Uhr
 
 #####Techniken
-
 * nur asynchrone Kommunikation verwenden, Code vom Server zum Client schicken
   (Javascript)
 * verteilen der Komponenten (DNS für Subdomain)
 * replizieren von Komponenten
 
 ####Eigenschaften von DS
-
 * Performance
 * Verteilte Abhängigkeiten (shared Informatio, shared Data)
 * reliability (Redundanz)
@@ -81,7 +76,6 @@ verbergen von:
 * Kommunikation
 
 ####Klassifikation von DS
-
 **Erste**
 
 * Layer (vertikal arrangement)
@@ -102,19 +96,15 @@ verbergen von:
 * Security model
 
 ####Chord for dezentralisiertes Architektur
-
 * Aufbau Ring
 * Jeder Knoten hällt die Elemente, die vor ihm auf dem Ring liegen zwischen
   seinem vorgänger Knoten und ihm.
 
 #####Fingertables
-
 In der Tabellen stehen die Knoten der Elemente von 2^i - 1 (i = 1, 2, 3,  ...)
 
 ###Modelle
-
 ####Interleaving model
-
 **Definition**
 A sequence of events seq = (e_i : 0 <= i <= m) is a computation of the system in
 the interleaving model if there exists a sequence of global states (G_i : 0 <= i <= m + 1) such
@@ -124,7 +114,6 @@ G_i+1 = next (G_i , e_i ), for 0 <= i <= m.
 gobal total order
 
 ####Happened Before
-
 **Immediately precedes**
 
 <_im : e <_im f <=> e immediately precedes f in the sequence of events at P_i .
@@ -152,7 +141,6 @@ after state s that is received be the receiver, resulting in state t
 not (e -> f) und not (f -> e) => e || f
 
 ####Potential Causality
-
 **Def**
 
 Potential Causality. The potential causality relation is the smallest causality
@@ -172,12 +160,10 @@ Happened Before | Logical order | total oder on each process
 Potential causality | Causality | partial order on each process
 
 ###Uhrenalgorithmen
-
 global order tracked by logische Uhr
 happend before tracked by Vektor Uhr
 
 ####Logische Uhren
-
 for All s,t element S : s -> t => C(s) < C(t)
 
 ```
@@ -191,7 +177,6 @@ internal event (s, internal, t)
 ```
 
 ####Vektor Uhren
-
 for All s,t: s -> t => s.v < t.v
 
 **VC1:**
@@ -323,9 +308,7 @@ resource
 ###RPC
 
 ##Leader Election
-
 ###Properties
-
 * Safety: not two nodes declare themselves leader
   - for all i,j: i ungleich j : not (leader(i) und leader(j))
 * liveness: every node eventually terminates
@@ -334,11 +317,9 @@ resource
   are issued
 
 ####LCR (LeLann Chang, Roberts)
-
 * unidirectional communikation
 * no message lost
 * ring size unknown
-
 * only leader produces output
 * alg compares UIDs
 
@@ -364,7 +345,6 @@ if incoming message is v then
 ```
 
 #####Correctness
-
 Let i_max index of process ith mac(UID)
 Let u_max its UID
 
@@ -377,7 +357,6 @@ Let u_max its UID
      by induction on r and 3
 
 #####Complexity
-
 * time complexity is N rounds
 * communication complexity O(N^2) messages in worst case
 * not too expensive in time
@@ -425,49 +404,40 @@ phase++,
 ```
 
 #####Complexity
-
 * total number of phases 1 + log N aufgerundet
 * total number of messages at most 8N (1 + log N aufgerundet) etwa O(N log N)
   with constant factor of approx 8
-
 * time  complexity most 3N if N is power of 2, otherwise 5N
 
 ##Mutal Exclusion
-
 * access of shared resources
 * required atomic operations
 * asumes no link or mode(process) failures
 
 **types of algs**
-
 * time-stamp based
 * token based
 * quorum-based
 
 ###Alg Satisfy
-
 **Safety**
 
 Two process must not have permission to access the critical section in
 concurrent states (nothing bad will happen)
 
 **Liveness**
-
 Every request is eventually granted (something good will happen)
 
 **Fairness**
-
 Request must be granted in the order they are issued
 
 **Remark**
-
 The best and expensive algorithm is centralized
 
 ###Time Stamp based
-
 ####Lamport's Alg
-
 * each process has a logical clock and a queue
+* complexity 3(N-1) messages
 
 ```
 P_i:
@@ -487,10 +457,7 @@ receive(n)
   end
 ```
 
-* complexity 3(N-1) messages
-
 ####Ricard & Agrawala
-
 * complexity 2(N-1) messages
 * combines ack and release
 
@@ -520,7 +487,6 @@ release :
 ```
 
 ###Token based
-
 ####Centralized Alg
 
 * Coordinator, adminitrator of token
@@ -566,24 +532,41 @@ release
 
 
 ###Quorum Based
-
 **metrics**
 
 * Quorum size, smaller quorum needs less messages
 * Availability
 * load on the buisiest node
 
-####Consistency and Consensus
+###Consistency and Consensus ,distributed commit
+* operation is performed by a group or none of the group
+* reliable multicast: operatoins = delivery of a message
+* distributed transactions operations = executions of a transaction
+* user coordinator
 
-#####distributed commit
-
-1. coordinator --> vote request all prticipants
-2. prticipnt --> vote commit coordintor
-3. if all commit coordintor --> global commit all participants else coordinator
-   --> global abort all participants
-4. ```
+* one-phase commit: node sends update to all other node who write the update.
+  If a message gets lost, or node fails and revovers the data in the system is
+  no longer consistens
+* two-phase commit: Jim gray (1978)
+* distributed transaction involves several processors each on a different
+  machine 2 phases wit each 2 steps(one message forth and back):
+  1. coordinator --> vote request all prticipants
+  2. prticipnt --> vote commit coordintor
+  3. if all commit coordintor --> global commit all participants else coordinator
+     --> global abort all participants
+  4. code
+```
 if commit
   participant loclly commits
 else
   participant loclly aborts
+```
+
+###Snapshot(Chandy-Lamport)
+* create global distributed state
+```pseudo
+send marker msg to all other nodes P_j
+record local state
+record all messaes on channel P_i − P_j
+until marker msg is received from P_j
 ```
