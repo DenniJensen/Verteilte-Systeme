@@ -154,7 +154,7 @@ relation on the event set that satisfies the following properties:
 
 
 Model | Basis | Type
---|--|--
+---|---|---
 Interleaving | Physical Time | total oder on all events
 Happened Before | Logical order | total oder on each process
 Potential causality | Causality | partial order on each process
@@ -296,7 +296,7 @@ migration resource segement 2 is difficult
 3. fixed resources, not movable (local device)
 
 process to resource | resource to machine
--- | --
+--- | ---
 | unattached | fastened | fixed
 by identifier | MV | GR (or MV) | GR
 by value | CP | GR (or CP) | GR
