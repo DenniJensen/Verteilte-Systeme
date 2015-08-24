@@ -1,0 +1,52 @@
+\documentclass[paper=a4, fontsize=11pt, twocolumn]{scrartcl}
+
+\input{preamble.tex}
+
+%%% Title	
+\title{ \vspace{-1in} 	\usefont{OT1}{bch}{b}{n}
+		\huge \strut  Seminar: Verteilte Systeme\strut \\
+		\Large \bfseries \strut Implementation des Snapshot Algorithmus von Chandy und Lamport in Java mit dem Framework Akka \strut
+}
+
+\author{Martin Görick und Dennis Hägler \usefont{OT1}{bch}{m}{n}
+        Freie Universität Berlin\\		\usefont{OT1}{bch}{m}{n}
+        \texttt{goerickm@zedat.fu-berlin.de, dennis.haegler@fu-berlin.de}
+}
+
+%%% Begin document
+\begin{document}
+\twocolumn[
+\begin{@twocolumnfalse}
+\maketitle
+\begin{abstract}
+\input{text/abstract}
+\vspace{4em}
+\end{abstract}
+\end{@twocolumnfalse}
+]
+
+\section{Einleitung}
+\label{sec:einl}
+\input{text/introduction}
+
+\section{Akka}
+\label{sec:akka}
+\input{text/akka}
+
+\section{Snapshot Algorithmus}
+\label{sec:snapshotalg}
+\input{text/snapshot-algorithm}
+
+\section{Implementation}
+\label{sec:impl}
+\input{text/implementation}
+
+\section{Test}
+\label{sec:test}
+\input{text/test}
+
+\section{Probleme}
+\label{sec:probs}
+\input{text/problems}
+\bibliography{bibliography}
+\end{document}
