@@ -1,4 +1,4 @@
-## latex/pdflatex
+## latex/pdflatexi
 *.aux
 *.lof
 *.log
@@ -7,6 +7,10 @@
 *.out
 *.toc
 *.bib~
+*.bak
+*.bbl
+*.blg
+*.synctex.gz
 /seminar/ausarbeitung/*.pdf
 
 target/
