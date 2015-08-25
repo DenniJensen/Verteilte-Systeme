@@ -17,15 +17,14 @@ public class FUCoinInitMain {
     Props props = Props.create(Wallet.class , "initNode");
     ActorRef initNode = actorSystem.actorOf(props, "initNode");
 
-    ActorRef[] actorRefs = new ActorRef[5];
-    Random random = new Random();
+    ActorRef[] actorRefs = new ActorRef[500];
     for (int i = 0; i < actorRefs.length; i++) {
-      props = Props.create(Wallet.class , "Node" + i, random.nextInt(100), initNode);
+      props = Props.create(Wallet.class , "Node" + i, 100, initNode);
       actorRefs[i] = actorSystem.actorOf(props, "Node" + i);
     }
 
     try {
-      TimeUnit.MILLISECONDS.sleep(100);
+      TimeUnit.MILLISECONDS.sleep(1000);
     } catch (InterruptedException e) {
       e.printStackTrace();
     }

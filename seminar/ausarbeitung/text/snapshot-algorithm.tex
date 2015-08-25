@@ -1,2 +1,40 @@
 \section{Snapshot Algorithmus}
 \label{sec:snapshotalg}
+
+- Annahmen für den Algorithmus
+  - Kanal zwischen 2 Knoten haben unendlichen Speicher, sind Fehlerfrei,
+    die Nachrichten kommen in der Reihenfolge an, wie sie gesendet werden 
+    (FIFO Prinzip, First in, First out)
+    
+- Beim Start ein Knoten
+  - speichert seinen Aktuellen Zustand
+  - sendet Marker Nachricht zu allen seinen bekannten Nachbarn
+- eventuell startknoten per Leaderelection gewählt.
+
+- danach wie in Listing \ref{lst:markerarrive} dargestellt, wenn Marker Nachricht ein Knoten erreicht
+
+- jeder Knoten (start Knoten oder wenn erste Marker Nachricht erreicht.
+  - speichern des aktuellen Zustand
+  - sendet Marker Nachricht zu allen Nachbarn
+  - speichert Kanäle als Sequenz von Nachrichten bis eine Marker Nachricht
+   über den Kanal erreicht 
+  - wenn alle Kanäle gespeichert sind, dann ist der Knoten Fertig
+
+- eventuell senden alle Knoten ihre Zustände mit den Sequenzen der Kanäle zu einem globalen Knoten
+   
+   
+\begin{lstlisting}[caption={Pseudo Ablauf, wenn Marker Nachricht über den Kanal c den Knoten q erreicht. \cite{snapshotChandyLamport}}, label=lst:markerarrive]
+if q hat seinen Zustand noch 
+nicht gespeichert then
+  q speichert seinen Zustand;
+  q speichert c als leere Sequenz;
+  q sendet an alle Nachbarn 
+  eine Marker Nachricht;
+else
+  q speichert den Zustand von c 
+  als Sequenz von Nachrichten
+  von dem Zeitpunkt als q 
+  seinen Zustand gespeichert 
+  hat und dem Zeitpunkt als die
+  Marker Nachricht erhaelt;
+\end{lstlisting}

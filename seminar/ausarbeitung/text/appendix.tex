@@ -1,0 +1,104 @@
+\section*{Anhang}
+\label{sec:appendix}
+
+\begin{lstlisting}[style=java,caption={Snapshot Klasse mit Methoden},label=lst:sclass]
+public class Snapshot implements Serializable {
+
+  private final String name;
+  private final int amount;
+
+  private List<ActorRef> waitingToResponse;
+  private HashMap<ActorRef, List<Object>> recordedMessages;
+
+  public Snapshot(String name, int amount, List<ActorRef> waitingToResponse) {
+  ...
+  }
+  
+  public void handleMessages(Object message, ActorRef sender) {
+  ...
+  }
+  
+  public boolean isWaiting() {
+    return waitingToResponse.size() > 0;
+  }
+  
+  public int getAmount() {
+    return amount;
+  }
+
+  public String getName() {
+    return name;
+  }
+}
+\end{lstlisting}
+
+\begin{lstlisting}[style=java,caption={Handler wenn eine Maker Nachricht den Knoten erreicht}, label=lst:makerHandler]
+private void handleMarkerMessage() {
+  if (!recordingSnapshot && snapshot == null) {
+    List<ActorRef> waitingNeighbors = new ArrayList<>(knownNeighbors.values());
+    waitingNeighbors.remove(sender());
+    snapshot = new Snapshot(getName(), getAmount(), waitingNeighbors);
+    notifyAll(new EventMarkerMessage());
+    recordingSnapshot = true;
+  }
+  if (!knownNeighbors.containsValue(sender())) {
+    sender().tell(new EventMarkerMessage(), self());
+  }
+}
+\end{lstlisting}
+
+\begin{lstlisting}[caption={Beispiel Ablauf des Snapshot Algorithmus mit 3 Knoten neben dem initKnoten}, label=lst:testss]
+Node0 is joint.
+Node2 is joint.
+Node2: I'm accepted.
+Node0: I'm accepted.
+Node1 is joint.
+Node1: I'm accepted.
+initNode: Receive marker message from deadLetters
+initNode: Start Snapshot
+initNode: send marker message to Node1
+initNode: send marker message to Node0
+Node1: Receive marker message from initNode
+Node1: Start Snapshot
+Node0: Receive marker message from initNode
+Node0: Start Snapshot
+initNode: send marker message to Node2
+Node0: send marker message to Node1
+Node1: send marker message to Node1
+Node0: send marker message to Node0
+Node2: Receive marker message from initNode
+Node2: Start Snapshot
+Node0: send marker message to Node2
+Node0: send marker message to initNode
+Node0: Receive marker message from Node0
+Node1: send marker message to Node0
+Node1: send marker message to Node2
+Node0: Receive marker message from Node1
+Node2: send marker message to Node1
+Node1: send marker message to initNode
+Node2: send marker message to Node0
+Node1: Receive marker message from Node0
+Node2: send marker message to Node2
+Node0: Snapshot finished.
+Node0: Receive marker message from Node2
+initNode: send marker message to deadLetters
+Node1: Receive marker message from Node1
+initNode: Receive marker message from Node0
+Node2: send marker message to initNode
+initNode: Receive marker message from Node1
+Node1: Snapshot finished.
+initNode: Snapshot finished.
+Node2: Receive marker message from Node0
+Node2: Receive marker message from Node1
+initNode: Receive marker message from Node2
+Node1: Receive marker message from Node2
+Node2: Snapshot finished.
+Node2: Receive marker message from Node2
+
+Snapshot
+--------
+initNode have amount: 0
+Node0 have amount: 100
+Node1 have amount: 100
+Node2 have amount: 100
+\end{lstlisting}
