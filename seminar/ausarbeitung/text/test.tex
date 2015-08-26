@@ -1,19 +1,19 @@
 \section{Test}
 \label{sec:test}
+Als Test für eine erfolgreiche Implementierung dienen die Ausgaben der
+folgenden Machrichten auf der Konsole:
+\begin{itemize}
+  \item join
+  \item accepted
+  \item marker message arrived
+  \item start snapshot / finish snapshot
+  \item globale snapshot
+\end
 
-- zur visualisierung, werden die Nachrichten join, accepted, marker message 
- arrived, start snapshot finished snapshot und der globale snapshot am ende
-  vom initnode in der Konsole ausgegeben
-  
-- der init Knoten ist als Leader bestimmt um den Snapshot zu starten
-  
-- für test alle Knoten mit einem Betrag von 100 gestartet
-
-- Beispiel ist in Listing \ref{lst:testss} mit 3 Knoten dargestellt
-
-- Test mit 3, 5, 20 und 100, 500 Knoten
-
-- Bei mehr als 500 Knoten, werden zu viele Nachrichten ausgegeben
-
-- es werden beim Test keine Nachrichten versendet, in denen Beträge 
-  ausgetauscht werden
+Der Initialknoten ist von uns als Leader bestimmt worden um den Snapshot zu starten. 
+Für einen Test erhalten alle Knoten einen Betrag von 100 wie das Beispiel für drei 
+Knoten im Anhang in Listing \ref{lst:testss} zeigt. Tests mit 3, 5, 20, 100 und 500 
+Knoten wurden durchgeführt. Bei Test mit mehr als 500 Knoten werden zu viele Nachrichten
+ausgegeben, deswegen konnte mit mehr nicht getestet werden.
+Zum testen wurden nur die oben angegeben visualisierten Nachrichten ausgetauscht
+Es gibt keinen Austausch von Beträge zwischen den Knoten.
