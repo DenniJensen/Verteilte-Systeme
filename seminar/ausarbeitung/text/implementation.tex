@@ -1,41 +1,45 @@
 \section{Implementation}
 \label{sec:impl}
+Um den Snapshot-Alogrythmus zu implementieren, benötigen wir für den
+Algorythmus einen Leader. In unserer Implemeniterung ist der Initialknoten im
+Akka-System der Leader für den Snapshot. Dieser Knoten erhählt nach dem Start
+die erste Marker-Nachricht.
 
-- wir haben einen Initialknoten, welcher bei uns der Leader ist.
-- nach dem start, senden wir diesem die erste Marker Nachricht
+Alle Bestandteile des Snapshot sind in einer Klasse implementiert. Im Laufe
+des Programms wird diese Klasse über das Sysytem verschickt.
+Variablen und Methoden der Klassen sind in \ref{lst:sclass} dargestellt.
 
-- Der Snapshot ist als eigene Klasse implementiert, um ihn später 
-  verschicken zu können
-- in Listing \ref{lst:sclass} variablen und Methoden dargestellt
+Folgende Variablen werden genutzt: als erstes der name des Wallets, dann
+der Betrag beim Start der Aufnahme des Knotens in das System, eine Liste der
+Knoten und allen Nachrichten von Knoten, die sich in der Liste befinden und
+eine Hash-Map bestehend aus Knoten und deren Nachrichten.
 
-Variablen:
- - name = name des Wallets
- - amount = Betrag beim start der Aufnahme
- - waitingToResponse = Liste der Knoten, welche noch keine Marker Messsage
+\begin{itemize}
+ \item name = name des Wallets
+ \item amount = Betrag beim start der Aufnahme
+ \item waitingToResponse = Liste der Knoten, welche noch keine Marker Messsage
   gesendet haben
- - recordedMessages = HashMap aus den Knoten und allen Nachrichten, welche
+ \item recordedMessages = HashMap aus den Knoten und allen Nachrichten, welche
   von diesen ankommen, seid dem Start der Aufnahme und dem erreichen der
    Marker Nachricht
-   
-- Snapshot startet mit
-  - namen des Knoten, Betrag des Knoten beim start und Liste von Kanälen, 
-  von denen auf eine Marker Nachricht gewartet wird
-  
-- solange aufgenommen wird, wird jede Nachricht an \textit{handeMessages} 
-  übergeben um in die Hashmap aufgenommen zu werden
-  - wenn es eine Makermessage ist, wird der Kanal geschlossen, aus
-   waitingToResponse gelöscht
-   
-- Wenn Maker Message erreicht wird im Wallet \textit{handleMarkerMessage}
- aufgerufen
- 
-- wenn der Snapshot noch nicht aufgenommen wurde
-  - erstelle Liste mit den bekannten Knoten
-  - erstelle neuen Snapshot mit Name, aktuellen Betrag und der Liste
-  - danach sende an alle Nachbarn eine Marker Nachricht
-- Wenn er der Knoten unbekannt ist, von dem die Marker Nachricht kommt, 
-  wird diesem noch extra eine Marker Nachricht gesendet um sicher zu 
-  stellen, dass er nicht warten muss
-  
-- sollten alle Kanäle aufgenommen sein, wird der Snapshot noch zum initial 
-  Knoten gesendet
+\end{itemize}
+
+Ein Snapshot startet mit dem Namen des Knotens, dessen Betra und einer Liste
+von Kanälen, die auf Marker Nachrichten warten.
+Bei Aufnahme werden alle Nachrichten von der \textit{handeMessages}
+verarbeitet und in der Hash-Map aufgenommen.
+Ist die Nachricht eine Marker-Nachricht wir der Kanal geschlossen und der
+Knoten aus der waitingToResponse-Liste gelöscht.
+Die \textit{handleMarkerMessage} kommt zum Einsatz wenn eine Marker-Nachricht
+beim Knoten eintrifft.
+
+Ist der Snapshot nocht nicht im Aufnahme-Modus, erstellt er eine Liste der
+bekannten Knoten, dann einen neuen Snapshot mit einem Namen, dem aktuellen
+Betrag und der Liste. Anschließen werden Marker-Nachrichten an alle Nachbarn
+verschickt
+Ist der Knoten in dem Fall, von dem eine Marker-Nachricht eintritt, wird
+an diesem eine extra Marker-Nachricht versendet um die Wartezeit des
+Knotens zu verringern.
+
+Sind alle Marker-Nachrichten aufgenommen, wird der Snapshot zum Initial-Knoten
+versendet.
