@@ -6,14 +6,14 @@ viel Speicher zur Verfügung stehen. Es wird auch davon ausgegangen, dass die
 nach dem FIFO-Prinzip abgearbeitet werden.
 
 Beim Start des Snapshots speichert ein Knoten seinen aktuellen Zustand und sendet 
-eine Marker-Nachricht an alle bekannte Nachbarknoten. Dieser Startknoten kann
+eine Marker-Nachricht an alle bekannte NachbarKnoten. Dieser Startknoten kann
 zum Beispiel per Leaderelection gewählt werden.
 
 Wie in Listing \ref{lst:markerarrive} dargestellt, speichert jeder Knoten den
 aktuelle Zustand, wenn die erste Marker-Nachricht eintrifft. Dann wird eine
 Marker-Nachricht an alle bekannten Knoten versendet.  Alle Kanäle werden als
 Sequenz von Nachrichten gespeichert bis eine Marker-Nachricht über den Kanal
-erreicht wird. Abschlossen mit der Aufnahme ist der Knoten, wenn alle Kanäle
+erreicht wird. Abgeschlossen mit der Aufnahme ist der Knoten, wenn alle Kanäle
 gespeichert sind.  Eine Möglichkeit besteht, dass alle Knoten ihren Zustand mit
 den Sequenzen der Kanäle an einen globalen Knoten versenden.
 

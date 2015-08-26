@@ -1,7 +1,7 @@
 \section{Probleme}
 \label{sec:probs}
 In diesem Abschnitt berichten wir die Probleme bei der Implementierung des
-Snapshot-Algorithmusses mit Akka.
+Snapshot-Algorithmus mit Akka.
 
 Ein Startproblem bei der Implementierung lieferte Akka.
 Um ein Akka-Netzwerk zu starten, indem alle Knoten miteinander kommunizieren,
@@ -10,6 +10,6 @@ der die Kommunikation definiert wird.
 Damit Knoten im Netzwerk erkannt werden, muss sich jeder Knoten beim
 Initial-Knoten anmelden.
 
-Die Implementierung des Snapshots stoß auf ein Zeitproblem, dass mit einem
-Timeout gelöst wurde, damit Knoten gestartet werden könnten bevor die ersten
-Marker-Nachrichten gesendet werden.
+Die Implementierung des Snapshots stoß auf ein Problem mit der Zeit, dass 
+mit einem Timeout gelöst wurde, damit Knoten gestartet werden könnten bevor
+die ersten Marker-Nachrichten gesendet werden.

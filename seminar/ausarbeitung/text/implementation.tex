@@ -3,12 +3,12 @@
 Für die Implementation des Snapshot-Alogrythmus wird eigentlich ein Leader 
 notwendig, welcher benötigen wird um den Snapshot zu starten. Dies kann zum
 Beispiel über einen Leader Election Algorithmus erfolgen. Da es unsere Aufgabe
-war nur einen Algorithmus zu implentieren, wurde beschlossen, dass der 
-Initialknoten im Akka-System der Leader für den Snapshot ist. Dieser Knoten 
-erhählt nach dem Start die erste Marker-Nachricht um den Snapshot zu starten.
+war nur einen Algorithmus zu implementieren, wurde beschlossen, dass der 
+initiale Knoten im Akka-System der Leader für den Snapshot ist. Dieser Knoten 
+erhält nach dem Start die erste Marker-Nachricht um den Snapshot zu starten.
 
 Alle Bestandteile des Snapshot sind in einer Klasse implementiert. Nach dem
-Abschluss eines Snapshot eines Knotens wird dieses Objekt zum Initialknoten
+Abschluss eines Snapshot eines Knotens wird dieses Objekt zum initialen Knoten
 geschickt.
 Die Variablen und Methoden der Klassen sind in Anhang im Listing \ref{lst:sclass} 
 dargestellt.
@@ -17,7 +17,7 @@ Folgende Variablen werden genutzt: als erstes der Name des Wallets, dann
 der aktuelle Betrag, welcher beim Start der Aufnahme vom Knotens gehalten wird,
 eine Liste seine Nachbarknoten, welche noch keine Marker-Nachricht gesendet
 haben und eine Hash-Map bestehend aus Knoten und deren Nachrichten vom Start
-der Aufnahme bis zum erhalt der Marker Nachricht von diesem Knoten.
+der Aufnahme bis zum erhält der Marker-Nachricht von diesem Knoten.
 
 \begin{itemize}
  \item \texttt{name: } Name des Wallets
@@ -36,7 +36,7 @@ verarbeitet und in der Hash-Map aufgenommen.
 Ist die Nachricht eine Marker-Nachricht wir der Kanal geschlossen und der
 Knoten aus der waitingToResponse-Liste gelöscht.
 Wenn die waitingtoResponse-Liste leer ist, dann ist der Snapshot am Knoten
-abgeschlossen und das Objekt wird zum Initialknoten gesendet.
+abgeschlossen und das Objekt wird zum initialen Knoten gesendet.
 
 Die \textit{handleMarkerMessage} Methode des Wallets, im Anhang in Listing 
 \ref{lst:makerHandler} dargestellt, kommt zum Einsatz wenn eine Marker-Nachricht
@@ -50,5 +50,5 @@ Sollte die Marker-Nachricht vom einem Knoten kommen, welche dem Knoten nicht
 bekannt ist, wird diesem eine Marker-Nachricht zurück geschickt.
 Dies wird getan um sicher zu stellen, das der Algorithmus auch beendet wird.
 
-Am Schluss, wenn alle Knoten ihren Snapshot zum Initialknoten gesendet haben,
-lassen wir die Snapshots in der Konsole ausgegeben.
+Am Schluss, wenn alle Knoten ihren Snapshot zum initialen Knoten gesendet
+haben, lassen wir die Snapshots in der Konsole ausgegeben.
