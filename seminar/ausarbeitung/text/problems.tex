@@ -1,12 +1,15 @@
 \section{Probleme}
 \label{sec:probs}
+In diesem Abschnitt berichten wir die Probleme bei der Implementierung des
+Snapshot-Algorithmusses mit Akka.
 
-- Probleme vor allem durch das lernen von Akka
-  - einstellen der Configdatei
-  - initial Knoten nötig, um das Netzwerk zu starten
-  - neue Knoten melden sich beim inital Knoten
-  - Danach kann jeder Knoten als start verwendet werden
-  
-- start des Snapshot
-  - timeout notwendig, so das Knoten gestartet sind, eh die erste Marker 
-    Nachricht gesendet wird
+Ein Startproblem bei der Implementierung lieferte Akka.
+Um ein Akka-Netzwerk zu starten, indem alle Knoten miteinander kommunizieren,
+benötigten wir einen Initial-Knoten zum Start und die Konfigurationsdatei, in
+der die Kommunikation definiert wird.
+Damit Knoten im Netzwerk erkannt werden, muss sich jeder Knoten beim
+Initial-Knoten anmelden.
+
+Die Implementierung des Snapshots stoß auf ein Zeitproblem, dass mit einem
+Timeout gelöst wurde, damit Knoten gestartet werden könnten bevor die ersten
+Marker-Nachrichten gesendet werden.
