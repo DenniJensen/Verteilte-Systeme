@@ -1,40 +1,34 @@
 \section{Snapshot Algorithmus}
 \label{sec:snapshotalg}
+Annahme für den Algorithmus ist, dass der Kanal zwischen zwei Knoten unendlich
+Speicher zur Verfügung stehen. Es wird auch davon ausgegangen, dass die
+Übertragung der Nachrichten fehlerfrei ist und die Reihenfolge der Nachrichten
+nach dem FIFO-Prinzip abgearbeitet werden.
 
-- Annahmen für den Algorithmus
-  - Kanal zwischen 2 Knoten haben unendlichen Speicher, sind Fehlerfrei,
-    die Nachrichten kommen in der Reihenfolge an, wie sie gesendet werden 
-    (FIFO Prinzip, First in, First out)
-    
-- Beim Start ein Knoten
-  - speichert seinen Aktuellen Zustand
-  - sendet Marker Nachricht zu allen seinen bekannten Nachbarn
-- eventuell startknoten per Leaderelection gewählt.
+Ein gestarteter Knoten speichert seinen aktuellen Zustand und sendet eine
+Marker-Nachricht an alle bekannte Nachbarknoten.  Der Startknoten kann per
+Leaderelection gewählt werden.
 
-- danach wie in Listing \ref{lst:markerarrive} dargestellt, wenn Marker Nachricht ein Knoten erreicht
+Wie in Listing \ref{lst:markerarrive} dargestellt, speichert jeder Knoten den
+aktuelle Zustand, wenn Marker-Nachricht eintrifft. Dann wird eine
+Marker-Nachricht an alle bekannten Knoten versendet.  Alle Kanäle werden als
+Sequenz von Nachrichten gespeichert bis eine Marker-Nachricht über den Kanal
+erreicht wird. Abschlossen mit der Aufnahme ist der Knoten, wenn alle Kanäle
+gespeichert sind.  Eine Möglichkeit besteht, dass alle Knoten ihren Zustand mit
+den Sequenzen der Kanäle an einen globalen Knoten versenden.
 
-- jeder Knoten (start Knoten oder wenn erste Marker Nachricht erreicht.
-  - speichern des aktuellen Zustand
-  - sendet Marker Nachricht zu allen Nachbarn
-  - speichert Kanäle als Sequenz von Nachrichten bis eine Marker Nachricht
-   über den Kanal erreicht 
-  - wenn alle Kanäle gespeichert sind, dann ist der Knoten Fertig
-
-- eventuell senden alle Knoten ihre Zustände mit den Sequenzen der Kanäle zu einem globalen Knoten
-   
-   
 \begin{lstlisting}[caption={Pseudo Ablauf, wenn Marker Nachricht über den Kanal c den Knoten q erreicht. \cite{snapshotChandyLamport}}, label=lst:markerarrive]
-if q hat seinen Zustand noch 
+if q hat seinen Zustand noch
 nicht gespeichert then
   q speichert seinen Zustand;
   q speichert c als leere Sequenz;
-  q sendet an alle Nachbarn 
+  q sendet an alle Nachbarn
   eine Marker Nachricht;
 else
-  q speichert den Zustand von c 
+  q speichert den Zustand von c
   als Sequenz von Nachrichten
-  von dem Zeitpunkt als q 
-  seinen Zustand gespeichert 
+  von dem Zeitpunkt als q
+  seinen Zustand gespeichert
   hat und dem Zeitpunkt als die
   Marker Nachricht erhaelt;
 \end{lstlisting}
