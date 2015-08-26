@@ -1,45 +1,51 @@
 \section{Implementation}
 \label{sec:impl}
-Um den Snapshot-Alogrythmus zu implementieren, benötigen wir für den
-Algorythmus einen Leader. In unserer Implemeniterung ist der Initialknoten im
-Akka-System der Leader für den Snapshot. Dieser Knoten erhählt nach dem Start
-die erste Marker-Nachricht.
+Für die Implementation des Snapshot-Alogrythmus wird eigentlich ein Leader 
+notwendig, welcher benötigen wird um den Snapshot zu starten. Dies kann zum
+Beispiel über einen Leader Election Algorithmus erfolgen. Da es unsere Aufgabe
+war nur einen Algorithmus zu implentieren, wurde beschlossen, dass der 
+Initialknoten im Akka-System der Leader für den Snapshot ist. Dieser Knoten 
+erhählt nach dem Start die erste Marker-Nachricht um den Snapshot zu starten.
 
-Alle Bestandteile des Snapshot sind in einer Klasse implementiert. Im Laufe
-des Programms wird diese Klasse über das Sysytem verschickt.
-Variablen und Methoden der Klassen sind in \ref{lst:sclass} dargestellt.
+Alle Bestandteile des Snapshot sind in einer Klasse implementiert. Nach dem
+Abschluss eines Snapshot eines Knotens wird dieses Objekt zum Initialknoten
+geschickt.
+Die Variablen und Methoden der Klassen sind in Anhang im Listing \ref{lst:sclass} 
+dargestellt.
 
-Folgende Variablen werden genutzt: als erstes der name des Wallets, dann
-der Betrag beim Start der Aufnahme des Knotens in das System, eine Liste der
-Knoten und allen Nachrichten von Knoten, die sich in der Liste befinden und
-eine Hash-Map bestehend aus Knoten und deren Nachrichten.
+Folgende Variablen werden genutzt: als erstes der Name des Wallets, dann
+der aktuelle Betrag, welcher beim Start der Aufnahme vom Knotens gehalten wird,
+eine Liste seine Nachbarknoten, welche noch keine Marker-Nachricht gesendet
+haben und eine Hash-Map bestehend aus Knoten und deren Nachrichten vom Start
+der Aufnahme bis zum erhalt der Marker Nachricht von diesem Knoten.
 
 \begin{itemize}
- \item name = name des Wallets
- \item amount = Betrag beim start der Aufnahme
- \item waitingToResponse = Liste der Knoten, welche noch keine Marker Messsage
-  gesendet haben
- \item recordedMessages = HashMap aus den Knoten und allen Nachrichten, welche
-  von diesen ankommen, seid dem Start der Aufnahme und dem erreichen der
-   Marker Nachricht
+ \item \texttt{name: } Name des Wallets
+ \item \texttt{amount: } Betrag beim Start der Aufnahme
+ \item \texttt{waitingToResponse: } Liste der Knoten, welche noch keine 
+ Marker-Nachricht gesendet haben.
+ \item \texttt{recordedMessages: } HashMap aus den Knoten und allen Nachrichten, 
+ welche von diesen ankommen, seid dem Start der Aufnahme und dem erreichen der
+ Marker-Nachricht
 \end{itemize}
 
-Ein Snapshot startet mit dem Namen des Knotens, dessen Betra und einer Liste
-von Kanälen, die auf Marker Nachrichten warten.
-Bei Aufnahme werden alle Nachrichten von der \textit{handeMessages}
+Ein Snapshot startet mit dem Namen des Knotens, dessen aktuellen Betrag und 
+einer Liste von Knoten, von denen auf Marker-Nachrichten gewartet wird.
+Bei Aufnahme werden alle Nachrichten von der \textit{handleMessages} Methode
 verarbeitet und in der Hash-Map aufgenommen.
 Ist die Nachricht eine Marker-Nachricht wir der Kanal geschlossen und der
 Knoten aus der waitingToResponse-Liste gelöscht.
-Die \textit{handleMarkerMessage} kommt zum Einsatz wenn eine Marker-Nachricht
+Wenn die waitingtoResponse-Liste leer ist, dann ist der Snapshot am Knoten
+abgeschlossen und das Objekt wird zum Initialknoten gesendet.
+
+Die \textit{handleMarkerMessage} Methode des Wallets, im Anhang im Listing 
+\ref{lst:makerHandler} dargestellt, kommt zum Einsatz wenn eine Marker-Nachricht
 beim Knoten eintrifft.
 
 Ist der Snapshot nocht nicht im Aufnahme-Modus, erstellt er eine Liste der
-bekannten Knoten, dann einen neuen Snapshot mit einem Namen, dem aktuellen
+bekannten Knoten, dann einen neuen Snapshot mit seinem Namen, dem aktuellen
 Betrag und der Liste. Anschließen werden Marker-Nachrichten an alle Nachbarn
-verschickt
-Ist der Knoten in dem Fall, von dem eine Marker-Nachricht eintritt, wird
-an diesem eine extra Marker-Nachricht versendet um die Wartezeit des
-Knotens zu verringern.
-
-Sind alle Marker-Nachrichten aufgenommen, wird der Snapshot zum Initial-Knoten
-versendet.
+verschickt.
+Sollte die Marker-Nachricht vom einem Knoten kommen, welche dem Knoten nicht
+bekannt ist, wird diesem eine Marker-Nachricht zurück geschickt.
+Dies wird getan um sicher zu stellen, das der Algorithmus auch beendet wird.
