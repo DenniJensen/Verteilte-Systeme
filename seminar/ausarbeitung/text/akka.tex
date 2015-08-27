@@ -1,3 +1,26 @@
 \section{Akka}
 \label{sec:akka}
 
+Akka ist ein Toolkit und Runtime zum bauen von neben-läufigen, verteilten und
+belastbaren Nachricht betriebene Applikationen in der JVM. \cite{akka}
+Für die Implementierung wird der \textit{UntypedActor} von Akka erweitert.
+In diesem wird die \textit{onReceive(Object message)} Methode implementiert, 
+welche zur Bearbeitung der Nachrichten vom Akka System dient.
+Als Nachrichten werden Objekte verwendet.
+Für jede Nachricht wurde eine Klasse erstellt, wie zum Beispiel zum Joinen 
+oder der Marker-Nachricht.
+
+Zum Starten der Aktoren wird ein ActorSystem erstellt.
+In diesem System werden die einzelnen Knoten gestartet oder jeder Knoten
+erhält ein eigenes System.
+Die Systeme behandeln die Nachrichten und schicken sie den jeweiligen Aktor.
+Zur Konfiguration dient die \textit{application.conf} Datei, welche zum 
+Beispiel den Port und die IP angibt.
+In unseren Fall steht dort die IP des initialen Knoten zu welchen nach dem 
+Start eingeloggt wird.
+Die einzelnen Aktoren, werden über die \textit{ActorRef} des Aktor Systems
+angesprochen.
+
+Jedes Wallet ist in der Implementation ein eigener Aktor im System.
+Nach dem alle Aktoren gestartet sind, wird über die \textit{tell} Funktion 
+vom \textit{ActorRef} der Snapshot gestartet.
