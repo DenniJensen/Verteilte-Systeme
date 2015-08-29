@@ -2,15 +2,16 @@
 \label{sec:einl}
 Dies ist eine Ausarbeitung für das Seminar: Verteilte Systeme SoSe 2015 von
 Prof. Dr. Katinka Wolter an der Freien Universität Berlin.  Dabei geht es um
-die Implementation des Snapshot Algorithmus für verteile Systeme von K. Mani
-Chandy und Leslie Lamport \cite{snapshotChandyLamport}. Verwenden wird die
+die Implementation des Snapshot Algorithmus für verteilte Systeme von K. Mani
+Chandy und Leslie Lamport. Es wurde sich dafür an dem Paper \textit{Distributed
+Snapshots: Determining Global States of Distributed Systems}  \cite{snapshotChandyLamport} orientiert. Verwenden wird die
 Programmiersprache Java \cite{java} mit der Bibliothek Akka \cite{akka}.
-Akka unterstützt den Austausch von Nachrichten in einem verteilten System
+Akka unterstützt dabei den Austausch von Nachrichten in einem verteilten System
 
-Im ersten Abschnitt \ref{sec:snapshotalg} wird der Snapshot Algorithmus von
-Chandy und Lamport beschrieben. Anschließend beschreiben wir im Abschnitt
-\ref{sec:akka} das Framework Akka. Der darauffolgende Abschnitt \ref{sec:impl}
-beschreibt die Umsetzung der Implementierung. Danach
-werden in den folgenden Sektion \ref{sec:test} die Implementierung näher
-erläuter. Zum Abschluss \ref{sec:probs} werden auf Probleme eingeganen, die bei
-der Implementierung auftraten.
+Im folgenden Abschnitt \ref{sec:snapshotalg} wird zuerst der Snapshot 
+Algorithmus von Chandy und Lamport beschrieben. Anschließend wird im Abschnitt
+\ref{sec:akka} auf die Bibliothek Akka eingegangen. Der darauf folgende 
+Abschnitt \ref{sec:impl} beschreibt die Umsetzung der Implementierung. Danach
+werden in der folgenden Sektion \ref{sec:test} die Implementierung näher
+erläutert. Zum Abschluss \ref{sec:probs} werden auf Probleme eingegangen, 
+welche bei der Implementierung auftraten.

@@ -4,12 +4,16 @@ In diesem Abschnitt berichten wir die Probleme bei der Implementierung des
 Snapshot-Algorithmus mit Akka.
 
 Ein Startproblem bei der Implementierung lieferte Akka.
-Um ein Akka-Netzwerk zu starten, indem alle Knoten miteinander kommunizieren,
-benötigten wir einen Initial-Knoten zum Start und die Konfigurationsdatei, in
-der die Kommunikation definiert wird.
-Damit Knoten im Netzwerk erkannt werden, muss sich jeder Knoten beim
+Um ein Akka-Netzwerk zu starten, indem alle Knoten miteinander kommunizieren
+können, benötigten wir einen Initial-Knoten zum Start des Netzwerkes.
+Außerdem die Konfigurationsdatei, in welcher die Kommunikation definiert wird.
+Damit die Knoten im Netzwerk erkannt werden, muss sich jeder Knoten beim
 Initial-Knoten anmelden.
 
-Die Implementierung des Snapshots stoß auf ein Problem mit der Zeit, dass 
-mit einem Timeout gelöst wurde, damit Knoten gestartet werden könnten bevor
-die ersten Marker-Nachrichten gesendet werden.
+Bei der Implementierung des Snapshots wurde ein Problem mit der Zeit beim 
+Starten des Snapshots erkannt.
+Es musste in Timeout eingeführt werden, damit alle Knoten, beziehungsweise
+genug Knoten, dem Netzwerk beigetreten sind bevor die ersten Marker-Nachrichten
+gesendet wurde.
+Sonst kam es dazu das die erste Marker-Nachricht vor dem Start eines Knoten an
+den initialen Knoten gesendet wurde und somit kein Snapshot durchgeführt wurde.

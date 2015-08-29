@@ -7,20 +7,23 @@ Für die Implementierung wird der \textit{UntypedActor} von Akka erweitert.
 In diesem wird die \textit{onReceive(Object message)} Methode implementiert, 
 welche zur Bearbeitung der Nachrichten vom Akka System dient.
 Als Nachrichten werden Objekte verwendet.
-Für jede Nachricht wurde eine Klasse erstellt, wie zum Beispiel zum Joinen 
-oder der Marker-Nachricht.
+Für jede Nachricht wurde eine Klasse erstellt, wie zum Beispiel eine Nachricht
+zum Joinen des Netzwerkes oder die Marker-Nachricht.
 
 Zum Starten der Aktoren wird ein ActorSystem erstellt.
-In diesem System werden die einzelnen Knoten gestartet oder jeder Knoten
-erhält ein eigenes System.
-Die Systeme behandeln die Nachrichten und schicken sie den jeweiligen Aktor.
-Zur Konfiguration dient die \textit{application.conf} Datei, welche zum 
-Beispiel den Port und die IP angibt.
+In diesem System werden die einzelnen Knoten, beziehungsweise die Aktoren,
+gestartet oder jeder Knoten im Netzwerk erhält ein eigenes System, wenn diese
+nicht auf dem selben Rechner gestartet werden.
+Die Systeme verwalten die reinkommenden und ausgehenden Nachrichten und 
+schicken sie den jeweiligen Aktor.
+Zur Konfiguration dient die \textit{application.conf} Datei, in welcher zum 
+Beispiel der Port und die IP angegeben ist.
 In unseren Fall steht dort die IP des initialen Knoten zu welchen nach dem 
-Start eingeloggt wird.
-Die einzelnen Aktoren, werden über die \textit{ActorRef} des Aktor Systems
+Start eine Verbindung hergestellt werden soll um den Netzwerk beizutreten.
+Die einzelnen Aktoren, werden dann über die \textit{ActorRef} des Aktor Systems
 angesprochen.
 
 Jedes Wallet ist in der Implementation ein eigener Aktor im System.
 Nach dem alle Aktoren gestartet sind, wird über die \textit{tell} Funktion 
-vom \textit{ActorRef} der Snapshot gestartet.
+vom \textit{ActorRef} die erste Marker-Nachricht versendet und damit der 
+Snapshot Algorithmus gestartet.

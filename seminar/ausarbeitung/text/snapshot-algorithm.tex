@@ -6,16 +6,18 @@ viel Speicher zur Verfügung stehen. Es wird auch davon ausgegangen, dass die
 nach dem FIFO-Prinzip abgearbeitet werden.
 
 Beim Start des Snapshots speichert ein Knoten seinen aktuellen Zustand und sendet 
-eine Marker-Nachricht an alle bekannte NachbarKnoten. Dieser Startknoten kann
-zum Beispiel per Leaderelection gewählt werden.
+eine Marker-Nachricht an alle bekannte Nachbar Knoten. Dieser Start-Knoten kann
+zum Beispiel per Leader election gewählt werden.
 
 Wie in Listing \ref{lst:markerarrive} dargestellt, speichert jeder Knoten den
 aktuelle Zustand, wenn die erste Marker-Nachricht eintrifft. Dann wird eine
 Marker-Nachricht an alle bekannten Knoten versendet.  Alle Kanäle werden als
 Sequenz von Nachrichten gespeichert bis eine Marker-Nachricht über den Kanal
 erreicht wird. Abgeschlossen mit der Aufnahme ist der Knoten, wenn alle Kanäle
-gespeichert sind.  Eine Möglichkeit besteht, dass alle Knoten ihren Zustand mit
-den Sequenzen der Kanäle an einen globalen Knoten versenden.
+gespeichert sind.  
+Am ende besteht die Möglichkeit, dass alle Knoten ihren Zustand mit
+den Sequenzen der Kanäle an einen globalen Knoten versenden um eventuelle
+Auswertungen durchzuführen.
 
 \begin{lstlisting}[caption={Pseudo Ablauf, wenn Marker Nachricht über den Kanal c den Knoten q erreicht. \cite{snapshotChandyLamport}}, label=lst:markerarrive]
 if q hat seinen Zustand noch

@@ -1,17 +1,17 @@
 \section{Implementation}
 \label{sec:impl}
-Für die Implementation des Snapshot-Alogrythmus wird eigentlich ein Leader 
+Für die Implementation des Snapshot-Alogrythmus ist eigentlich ein Leader 
 notwendig, welcher benötigen wird um den Snapshot zu starten. Dies kann zum
 Beispiel über einen Leader Election Algorithmus erfolgen. Da es unsere Aufgabe
 war nur einen Algorithmus zu implementieren, wurde beschlossen, dass der 
 initiale Knoten im Akka-System der Leader für den Snapshot ist. Dieser Knoten 
 erhält nach dem Start die erste Marker-Nachricht um den Snapshot zu starten.
 
-Alle Bestandteile des Snapshot sind in einer Klasse implementiert. Nach dem
-Abschluss eines Snapshot eines Knotens wird dieses Objekt zum initialen Knoten
-geschickt.
-Die Variablen und Methoden der Klassen sind in Anhang im Listing \ref{lst:sclass} 
-dargestellt.
+Alle Bestandteile des Snapshot sind in einer Klasse implementiert. 
+Diese Objekt wird ach dem Abschluss eines Snapshot von einen Knotens an den
+initialen Knoten geschickt.
+Einen Auszug der Snapshot Klasse mit den Variablen und Methoden ist im Anhang
+in Listing \ref{lst:sclass} dargestellt.
 
 Folgende Variablen werden genutzt: als erstes der Name des Wallets, dann
 der aktuelle Betrag, welcher beim Start der Aufnahme vom Knotens gehalten wird,
